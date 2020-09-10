@@ -10,7 +10,7 @@ def failed():
     sys.exit(2)
 
 def clean_arg(arg):
-    return arg.replace('\'','').replace('"','').replace(';','').replace('&','').replace(',','').replace('\\','').replace('|','')
+    return arg.replace('`','').replace('\'','').replace('"','').replace(';','').replace('&','').replace(',','').replace('\\','').replace('|','')
 
 import argparse
 parser = argparse.ArgumentParser(description="Build a SWIG distribution tarball swig-x.y.z.tar.gz")
