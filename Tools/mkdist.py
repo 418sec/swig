@@ -9,6 +9,9 @@ def failed():
     print("mkdist.py failed to complete")
     sys.exit(2)
 
+def clean_arg(arg):
+    return arg.replace('\'','').replace('"','').replace(';','').replace('&','').replace(',','').replace('\\','').replace('|','')
+
 import argparse
 parser = argparse.ArgumentParser(description="Build a SWIG distribution tarball swig-x.y.z.tar.gz")
 parser.add_argument("version", help="version string in format x.y.z")
@@ -17,8 +20,8 @@ parser.add_argument("-f", "--force-tag", required=False, action="store_true", he
 parser.add_argument("-s", "--skip-checks", required=False, action="store_true", help="skip checks (that local and remote repos are in sync)")
 args = parser.parse_args()
 
-version = re.sub("'|\"|;|&|,|\\|\|", '', args.version)
-branch = re.sub("'|\"|;|&|,|\\|\|", '', args.branch)
+version = clean_arg(args.version)
+branch = clean_arg(args.branch)
 dirname = "swig-" + version
 force_tag = args.force_tag
 skip_checks = args.skip_checks
