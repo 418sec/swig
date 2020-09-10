@@ -3,6 +3,7 @@
 import sys
 import os
 import subprocess
+import re
 
 def failed():
     print("mkdist.py failed to complete")
@@ -16,8 +17,8 @@ parser.add_argument("-f", "--force-tag", required=False, action="store_true", he
 parser.add_argument("-s", "--skip-checks", required=False, action="store_true", help="skip checks (that local and remote repos are in sync)")
 args = parser.parse_args()
 
-version = args.version
-branch = args.branch
+version = re.sub("'|\"|;|&|,|\\|\|", '', args.version)
+branch = re.sub("'|\"|;|&|,|\\|\|", '', args.branch)
 dirname = "swig-" + version
 force_tag = args.force_tag
 skip_checks = args.skip_checks
