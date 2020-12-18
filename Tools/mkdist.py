@@ -45,7 +45,7 @@ toolsdir = os.path.dirname(os.path.abspath(__file__))
 # Root directory path (swig) $ENV/swig
 rootdir = os.path.abspath(os.path.join(toolsdir, os.pardir))
 # version directory path $ENV/swig/<x.x.x>
-dirpath = os.path.join(rootdir, dirname)
+dirpath = os.path.join(toolsdir, dirname)
 
 if sys.version_info[0:2] < (2, 7):
      print("Error: Python 2.7 or higher is required")
@@ -125,6 +125,7 @@ output = tar_ps.communicate()
 # Go build the system
 
 print("Building system")
+run_command("mkdir", "-p", dirpath)
 run_command("./autogen.sh", cwd=dirpath) == 0 or failed()
 
 cmdpath = os.path.join(dirpath, "Source", "CParse")
