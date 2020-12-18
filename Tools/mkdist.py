@@ -3,28 +3,11 @@
 import sys
 import os
 import subprocess
+from utils import *
 
 def failed():
     print("mkdist.py failed to complete")
     sys.exit(2)
-
-def check_file_exists(path):
-    """
-    Checks if a file exists or not.
-    """
-    return os.path.isfile(path)
-
-def check_dir_exists(path):
-    """
-    Checks if a folder exists or not.
-    """
-    return os.path.isdir(path)
-
-def run_command(*args, **kwargs):
-    """
-    Runs an os command using subprocess module.
-    """
-    return subprocess.call(args, **kwargs)
 
 import argparse
 parser = argparse.ArgumentParser(description="Build a SWIG distribution tarball swig-x.y.z.tar.gz")

@@ -2,6 +2,7 @@
 
 import sys
 import os
+from utils import *
 
 def failed(message):
   if message == "":
