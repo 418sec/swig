@@ -19,4 +19,8 @@ def run_command(*args, **kwargs):
     """
     Runs an os command using subprocess module.
     """
+    redirect_out = list(map(str.strip, " ".join(args).split(" > ")))
+    if len(redirect_out) > 1:
+        args, filepath = redirect_out[0].split(), redirect_out[-1]
+        kwargs.update(stdout=open(filepath, "w"))
     return subprocess.call(args, **kwargs)

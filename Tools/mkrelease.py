@@ -28,15 +28,16 @@ skip_checks = args.skip_checks
 username = args.username
 
 print("Looking for rsync")
-os.system("which rsync") and failed("rsync not installed/found. Please install.")
+run_command("which", "rsync") and failed("rsync not installed/found. Please install.")
 
 print("Making source tarball")
 force = "--force-tag" if force_tag else ""
 skip = "--skip-checks" if skip_checks else ""
-os.system("python ./mkdist.py {} {} --branch {} {}".format(force, skip, branch, version)) and failed("")
+cmd = "python ./mkdist.py {} {} --branch {} {}".format(force, skip, branch, version)
+run_command(cmd.split()) and failed("")
 
 print("Build Windows package")
-os.system("./mkwindows.sh " + version) and failed("")
+run_command("./mkwindows.sh", version) and failed("")
 
 if username:
     print("Uploading to SourceForge")
@@ -46,11 +47,11 @@ if username:
 
     # If a file with 'readme' in the name exists in the same folder as the zip/tarball, it gets automatically displayed as the release notes by SF
     full_readme_file = "readme-" + version + ".txt"
-    os.system("rm -f " + full_readme_file)
-    os.system("cat swig-" + version + "/README " + "swig-" + version + "/CHANGES.current " + "swig-" + version + "/RELEASENOTES " + "> " + full_readme_file)
+    run_command("rm", "-f", full_readme_file)
+    run_command("cat", "swig-" + version + "/README", "swig-" + version + "/CHANGES.current", "swig-" + version + "/RELEASENOTES", ">", full_readme_file)
 
-    os.system("rsync --archive --verbose -P --times -e ssh " + "swig-" + version + ".tar.gz " + full_readme_file + " " + swig_dir_sf) and failed("")
-    os.system("rsync --archive --verbose -P --times -e ssh " + "swigwin-" + version + ".zip " + full_readme_file + " " + swigwin_dir_sf) and failed("")
+    run_command("rsync", "--archive", "--verbose", "-P", "--times", "-e", "ssh", "swig-" + version + ".tar.gz", full_readme_file, swig_dir_sf) and failed("")
+    run_command("rsync", "--archive", "--verbose", "-P", "--times", "-e", "ssh", "swigwin-" + version + ".zip", full_readme_file, swigwin_dir_sf) and failed("")
 
     print("Finished")
 
