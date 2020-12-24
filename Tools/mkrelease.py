@@ -33,11 +33,12 @@ run_command("which", "rsync") and failed("rsync not installed/found. Please inst
 print("Making source tarball")
 force = "--force-tag" if force_tag else ""
 skip = "--skip-checks" if skip_checks else ""
-cmd = "python ./mkdist.py {} {} --branch {} {}".format(force, skip, branch, version)
-run_command(cmd.split()) and failed("")
+toolsdir = os.path.dirname(os.path.abspath(__file__))
+cmd = "python {}/mkdist.py {} {} --branch {} {}".format(toolsdir, force, skip, branch, version).split()
+run_command(*cmd) and failed("")
 
 print("Build Windows package")
-run_command("./mkwindows.sh", version) and failed("")
+run_command("{}/mkwindows.sh".format(toolsdir), version) and failed("")
 
 if username:
     print("Uploading to SourceForge")
